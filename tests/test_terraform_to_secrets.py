@@ -1,5 +1,5 @@
 #!/usr/bin/env pytest -vs
-"""Tests for example."""
+"""Tests for terraform-to-secrets."""
 
 # Standard Python Libraries
 import logging
@@ -11,7 +11,7 @@ from unittest.mock import patch
 import pytest
 
 # cisagov Libraries
-import example
+import terraform_to_secrets
 
 div_params = [
     (1, 1, 1),
@@ -30,14 +30,14 @@ log_levels = (
 
 # define sources of version strings
 RELEASE_TAG = os.getenv("RELEASE_TAG")
-PROJECT_VERSION = example.__version__
+PROJECT_VERSION = terraform_to_secrets.__version__
 
 
 def test_stdout_version(capsys):
     """Verify that version string sent to stdout agrees with the module version."""
     with pytest.raises(SystemExit):
         with patch.object(sys, "argv", ["bogus", "--version"]):
-            example.example.main()
+            terraform_to_secrets.example.main()
     captured = capsys.readouterr()
     assert (
         captured.out == f"{PROJECT_VERSION}\n"
@@ -54,7 +54,7 @@ def test_running_as_module(capsys):
             # package and running it, so there is nothing to use from this
             # import. As a result, we can safely ignore this warning.
             # cisagov Libraries
-            import example.__main__  # noqa: F401
+            import terraform_to_secrets.__main__  # noqa: F401
     captured = capsys.readouterr()
     assert (
         captured.out == f"{PROJECT_VERSION}\n"
@@ -81,7 +81,7 @@ def test_log_levels(level):
             ), "root logger should not have handlers yet"
             return_code = None
             try:
-                example.example.main()
+                terraform_to_secrets.example.main()
             except SystemExit as sys_exit:
                 return_code = sys_exit.code
             assert return_code is None, "main() should return success"
@@ -99,7 +99,7 @@ def test_bad_log_level():
     with patch.object(sys, "argv", ["bogus", "--log-level=emergency", "1", "1"]):
         return_code = None
         try:
-            example.example.main()
+            terraform_to_secrets.example.main()
         except SystemExit as sys_exit:
             return_code = sys_exit.code
         assert return_code == 1, "main() should exit with error"
@@ -108,7 +108,7 @@ def test_bad_log_level():
 @pytest.mark.parametrize("dividend, divisor, quotient", div_params)
 def test_division(dividend, divisor, quotient):
     """Verify division results."""
-    result = example.example_div(dividend, divisor)
+    result = terraform_to_secrets.example_div(dividend, divisor)
     assert result == quotient, "result should equal quotient"
 
 
@@ -122,7 +122,7 @@ def test_slow_division():
     # Standard Python Libraries
     import time
 
-    result = example.example_div(256, 16)
+    result = terraform_to_secrets.example_div(256, 16)
     time.sleep(4)
     assert result == 16, "result should equal be 16"
 
@@ -130,7 +130,7 @@ def test_slow_division():
 def test_zero_division():
     """Verify that division by zero throws the correct exception."""
     with pytest.raises(ZeroDivisionError):
-        example.example_div(1, 0)
+        terraform_to_secrets.example_div(1, 0)
 
 
 def test_zero_divisor_argument():
@@ -138,7 +138,7 @@ def test_zero_divisor_argument():
     with patch.object(sys, "argv", ["bogus", "1", "0"]):
         return_code = None
         try:
-            example.example.main()
+            terraform_to_secrets.example.main()
         except SystemExit as sys_exit:
             return_code = sys_exit.code
         assert return_code == 1, "main() should exit with error"
