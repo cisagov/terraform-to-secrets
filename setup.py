@@ -44,7 +44,7 @@ def get_version(version_file):
 setup(
     name="terraform-to-secrets",
     # Versions should comply with PEP440
-    version=get_version("src/terraform-to-secrets/_version.py"),
+    version=get_version("src/terraform_to_secrets/_version.py"),
     description="Tool to take outputs from a Terraform configurationand add them as GitHub Secrets.",
     long_description=readme(),
     long_description_content_type="text/markdown",
@@ -108,5 +108,5 @@ setup(
         ]
     },
     # Conveniently allows one to run the CLI tool as `terraform-to-secrets`
-    entry_points={"console_scripts": ["terraform-to-secrets = terraform-to-secrets.example:main"]},
+    entry_points={"console_scripts": ["terraform-to-secrets = terraform_to_secrets.example:main"]},
 )
