@@ -85,13 +85,19 @@ setup(
     ],
     python_requires=">=3.6",
     # What does your project relate to?
-    keywords="skeleton",
+    keywords="terraform github",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
-    package_data={"terraform-to-secrets": ["data/*.txt"]},
     py_modules=[splitext(basename(path))[0] for path in glob("src/*.py")],
     include_package_data=True,
-    install_requires=["docopt", "schema", "setuptools >= 24.2.0"],
+    install_requires=[
+        "docopt",
+        "keyring",
+        "PyNaCl",
+        "requests",
+        "schema",
+        "setuptools >= 24.2.0",
+    ],
     extras_require={
         "test": [
             "coverage",
@@ -108,5 +114,9 @@ setup(
         ]
     },
     # Conveniently allows one to run the CLI tool as `terraform-to-secrets`
-    entry_points={"console_scripts": ["terraform-to-secrets = terraform_to_secrets.example:main"]},
+    entry_points={
+        "console_scripts": [
+            "terraform-to-secrets = terraform_to_secrets.terraform_to_secrets:main"
+        ]
+    },
 )

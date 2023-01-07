@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 """Parse Terraform state and create GitHub secrets.
 
 Secrets are created for IAM access keys, and specially tagged resources.
@@ -63,6 +61,8 @@ import keyring
 from nacl import encoding, public
 import requests
 from schema import And, Or, Schema, SchemaError, Use
+
+from ._version import __version__
 
 # Constants
 GIT_URL_RE: re.Pattern = re.compile("(?:git@|https://)github.com[:/](.*).git")
@@ -340,7 +340,7 @@ def create_all_secrets(
 
 def main() -> int:
     """Set up logging and call the requested commands."""
-    args: Dict[str, Any] = docopt.docopt(__doc__, version="1.1.0")
+    args: Dict[str, Any] = docopt.docopt(__doc__, version=__version__)
 
     # Validate and convert arguments as needed
     schema: Schema = Schema(
@@ -449,7 +449,3 @@ def main() -> int:
     logging.info("Success!")
 
     return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())
