@@ -115,8 +115,6 @@ setup(
     },
     # Conveniently allows one to run the CLI tool as `terraform-to-secrets`
     entry_points={
-        "console_scripts": [
-            "terraform-to-secrets = terraform_to_secrets.terraform_to_secrets:main"
-        ]
+        "console_scripts": ["terraform-to-secrets = terraform_to_secrets.cli:main"]
     },
 )
