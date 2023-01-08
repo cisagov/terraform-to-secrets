@@ -25,7 +25,7 @@ def encrypt(public_key: str, secret_value: str) -> str:
 
 def get_public_key(session: requests.Session, repo_name) -> Dict[str, str]:
     """Fetch the public key for a repository."""
-    logging.info(f"Requesting public key for repository {repo_name}")
+    logging.info("Requesting public key for repository %s", repo_name)
     response = session.get(
         f"https://api.github.com/repos/{repo_name}/actions/secrets/public-key"
     )
@@ -41,7 +41,7 @@ def set_secret(
     public_key: Dict[str, str],
 ) -> None:
     """Create a secret in a repository."""
-    logging.info(f"Creating secret {secret_name}")
+    logging.info("Creating secret %s", secret_name)
     encrypted_secret_value = encrypt(public_key["key"], secret_value)
     response = session.put(
         f"https://api.github.com/repos/{repo_name}/actions/secrets/{secret_name}",
@@ -102,6 +102,6 @@ def create_all_secrets(
 
     for secret_name, secret_value in secrets.items():
         if dry_run:
-            logging.info(f"Would create secret {secret_name}")
+            logging.info("Would create secret %s", secret_name)
         else:
             set_secret(session, repo_name, secret_name, secret_value, public_key)

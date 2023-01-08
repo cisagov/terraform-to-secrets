@@ -18,7 +18,7 @@ def get_terraform_state(filename: str = "") -> Dict:
     """
     data: Union[str, bytes, bytearray]
     if filename:
-        logging.info(f"Reading state from json file {filename}")
+        logging.info("Reading state from json file %s", filename)
         with open(filename) as f:
             data = f.read()
     else:
@@ -54,23 +54,27 @@ def find_tagged_secret(
     secret_value: Optional[str]
     if secret_name:
         logging.debug(
-            f"Found {GITHUB_SECRET_NAME_TAG} on {resource_name} "
-            f"with value {secret_name}"
+            "Found %s on %s with value %s",
+            GITHUB_SECRET_NAME_TAG,
+            resource_name,
+            secret_name,
         )
         if lookup_tag:
             logging.debug(
-                f"Found {GITHUB_SECRET_TERRAFORM_LOOKUP_TAG} on "
-                f"{resource_name} with value {lookup_tag}"
+                "Found %s on %s with value %s",
+                GITHUB_SECRET_TERRAFORM_LOOKUP_TAG,
+                resource_name,
+                lookup_tag,
             )
             secret_value = resource_data.get(lookup_tag)
             if secret_value is None:
-                logging.warning(f"Could not lookup value with key {lookup_tag}")
+                logging.warning("Could not lookup value with key %s", lookup_tag)
             else:
-                logging.debug(f"Looked up value: {secret_value}")
+                logging.debug("Looked up value: %s", secret_value)
                 yield secret_name, secret_value
         else:
             logging.warning(
-                f"Missing {GITHUB_SECRET_TERRAFORM_LOOKUP_TAG} on " f"{resource_name}."
+                "Missing %s on %s.", GITHUB_SECRET_TERRAFORM_LOOKUP_TAG, resource_name
             )
     return
 
@@ -164,7 +168,7 @@ def get_users(terraform_state: Dict) -> Dict[str, Tuple[str, str]]:
 
     logging.info("Searching Terraform state for IAM credentials.")
     for aws_user, aws_key_id, aws_secret in parse_creds(terraform_state):
-        logging.info(f"Found credentials for user: {aws_user}")
+        logging.info("Found credentials for user: %s", aws_user)
         user_creds[aws_user] = (aws_key_id, aws_secret)
 
     if len(user_creds) == 0:
@@ -177,9 +181,9 @@ def get_resource_secrets(terraform_state: Dict) -> Dict[str, str]:
     secrets: Dict[str, str] = dict()
     logging.info("Searching Terraform state for tagged resources.")
     for secret_name, secret_value in parse_tagged_resources(terraform_state):
-        logging.info(f"Found secret: {secret_name}")
+        logging.info("Found secret: %s", secret_name)
         secrets[secret_name] = secret_value
     for secret_name, secret_value in parse_tagged_outputs(terraform_state):
-        logging.info(f"Found secret: {secret_name}")
+        logging.info("Found secret: %s", secret_name)
         secrets[secret_name] = secret_value
     return secrets

@@ -137,7 +137,7 @@ def main() -> int:
     # If the user does not provide a repo name we'll try to determine it from git
     if not repo_name:
         repo_name = get_repo_name()
-    logging.info(f"Using GitHub repository name: {repo_name}")
+    logging.info("Using GitHub repository name: %s", repo_name)
 
     if github_token is None:
         logging.debug("GitHub token not provided in arguments.  Checking keyring.")
