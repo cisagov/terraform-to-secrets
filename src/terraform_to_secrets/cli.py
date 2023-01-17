@@ -65,7 +65,7 @@ KEYRING_SERVICE = "terraform-to-secrets"
 KEYRING_USERNAME = "GitHub PAT"
 
 
-def main() -> int:
+def main() -> None:
     """Set up logging and call the requested commands."""
     args: Dict[str, Any] = docopt.docopt(__doc__, version=__version__)
 
@@ -112,7 +112,7 @@ def main() -> int:
     except SchemaError as err:
         # Exit because one or more of the arguments were invalid
         print(err, file=sys.stderr)
-        return 1
+        sys.exit(1)
 
     # Assign validated arguments to variables
     dry_run: bool = validated_args["--dry-run"]
@@ -132,7 +132,7 @@ def main() -> int:
         logging.info("Saving the GitHub personal access token to the keyring.")
         keyring.set_password(KEYRING_SERVICE, KEYRING_USERNAME, github_token_to_save)
         logging.info("Success!")
-        return 0
+        return
 
     # If the user does not provide a repo name we'll try to determine it from git
     if not repo_name:
@@ -146,7 +146,7 @@ def main() -> int:
             logging.critical(
                 "GitHub token not provided on command line or found in keychain."
             )
-            return -1
+            sys.exit(-1)
         else:
             logging.info("GitHub token retrieved from keyring.")
 
@@ -174,5 +174,3 @@ def main() -> int:
     create_all_secrets(all_secrets, github_token, repo_name, dry_run)
 
     logging.info("Success!")
-
-    return 0
