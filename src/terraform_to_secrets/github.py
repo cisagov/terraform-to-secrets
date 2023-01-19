@@ -12,7 +12,9 @@ from nacl import encoding, public
 import requests
 
 # Constants
-GIT_URL_RE: re.Pattern = re.compile("(?:git@|https://)github.com[:/](.*).git")
+GIT_URL_RE: re.Pattern = re.compile(
+    r"^(?:git@|https://)github\.com[:/](.*?)(?:\.git)?$"
+)
 
 
 def encrypt(public_key: str, secret_value: str) -> str:
@@ -66,7 +68,7 @@ def get_repo_name() -> str:
         raise Exception(c.stderr)
     match = GIT_URL_RE.match(c.stdout.decode())
     if match:
-        repo_name = match.groups()[0]  # type: ignore
+        repo_name: str = match.groups()[0]
     else:
         logging.critical("Could not determine GitHub repository name.")
         logging.critical("Use the --repo option to specify it manually.")
