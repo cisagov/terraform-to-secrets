@@ -26,7 +26,7 @@ def get_terraform_state(filename: str = "") -> Dict:
         process = subprocess.run(  # nosec
             ["terraform", "show", "--json"], stdout=subprocess.PIPE
         )
-        data = process.stdout
+        data = process.stdout.decode()
     # Normally we'd check the process return code here.  But Terraform is perfectly
     # happy to return zero even if there were no state files.
     json_state: Dict = json.loads(data)

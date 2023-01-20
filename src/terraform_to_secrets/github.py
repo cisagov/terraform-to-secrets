@@ -71,7 +71,7 @@ def get_repo_name() -> str:
     )
     if c.returncode != 0:
         logging.critical("Could not determine GitHub repository name.")
-        raise Exception(c.stderr)
+        raise Exception(c.stderr.decode())
     match = GIT_URL_RE.match(c.stdout.decode())
     if match:
         repo_name: str = match.groups()[0]
