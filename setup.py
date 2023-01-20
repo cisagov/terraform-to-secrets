@@ -110,6 +110,7 @@ setup(
             "coveralls != 1.11.0",
             "pre-commit",
             "pytest-cov",
+            "pytest-subprocess",
             "pytest",
         ]
     },
