@@ -5,6 +5,7 @@ from base64 import b64encode
 import logging
 import re
 import subprocess  # nosec : security implications have been considered
+import sys
 from typing import Dict, Tuple
 
 # Third-Party Libraries
@@ -12,9 +13,14 @@ from nacl import encoding, public
 import requests
 
 # Constants
-GIT_URL_RE: re.Pattern = re.compile(
-    r"^(?:git@|https://)github\.com[:/](.*?)(?:\.git)?$"
-)
+if sys.version_info >= (3, 7):
+    GIT_URL_RE: re.Pattern
+else:
+    # Standard Python Libraries
+    from typing import Pattern
+
+    GIT_URL_RE: Pattern
+GIT_URL_RE = re.compile(r"^(?:git@|https://)github\.com[:/](.*?)(?:\.git)?$")
 
 
 def encrypt(public_key: str, secret_value: str) -> str:
