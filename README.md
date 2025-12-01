@@ -1,8 +1,10 @@
 # terraform-to-secrets #
 
 [![GitHub Build Status](https://github.com/cisagov/terraform-to-secrets/workflows/build/badge.svg)](https://github.com/cisagov/terraform-to-secrets/actions)
+[![License](https://img.shields.io/github/license/cisagov/terraform-to-secrets)](https://spdx.org/licenses/)
 [![CodeQL](https://github.com/cisagov/terraform-to-secrets/workflows/CodeQL/badge.svg)](https://github.com/cisagov/terraform-to-secrets/actions/workflows/codeql-analysis.yml)
 [![Coverage Status](https://coveralls.io/repos/github/cisagov/terraform-to-secrets/badge.svg?branch=develop)](https://coveralls.io/github/cisagov/terraform-to-secrets?branch=develop)
+[![Code Style](https://img.shields.io/badge/Code%20Style-black-black)](https://github.com/psf/black)
 
 This is a generic skeleton project that can be used to quickly get a
 new [cisagov](https://github.com/cisagov) Python library GitHub
